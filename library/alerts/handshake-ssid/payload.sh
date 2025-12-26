@@ -1,6 +1,6 @@
 #!/bin/bash
-# Title: Example Handshake Capture Alert
-# Description: Alert human readable summary
+# Title: SSID Handshake Capture Alert
+# Description: Alert human readable summary plus SSID
 # Author: RootJunky
 # Version: 1
 
