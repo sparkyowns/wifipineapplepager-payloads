@@ -5,12 +5,11 @@
 ---
 
 ### Features
+* **New Headless Mode:** Use Log Viewer to parse your log file and output to the console right from your payload!
 * **Turbo Batching:** Renders 50+ lines of log data instantly using compiled buffers.
 * **Dual View Modes:** Choose between **Parsed** (Deconstructed Color) or **Raw** (Standard Text).
 * **D-Pad Navigation:** Vertical up/down scrolling of log files for easier access.
 * **Large File Safety:** Automatically detects massive files and offers to "Tail" (view the last 60 lines) to prevent device freezing.
-
-* **New Headless Mode!:** Use Log Viewer to parse your log file and output to the console right from your payload!
 ---
 
 ### Workflow Tutorial
@@ -116,3 +115,4 @@ if [ "$CHOICE" -eq 1 ] && [ -f "$VIEWER" ]; then
     /bin/bash "$VIEWER" "$LOG_FILE" 1
 fi
 ```
+
