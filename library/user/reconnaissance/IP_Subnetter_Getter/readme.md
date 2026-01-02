@@ -2,9 +2,7 @@
 
 **Author:** THENRGLABS
 **Version:** 1.0
-**Category:** Exfiltration Tools
-**Platform:** Linux (with Nmap and ARP support)
-
+**Category:** Exfiltration Tool
 ---
 
 ### Overview
