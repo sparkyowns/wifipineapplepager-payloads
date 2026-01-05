@@ -7,7 +7,7 @@
 ############################
 # Configuration
 ############################
-RESPONDER_DIR="/root/tools/responder"
+RESPONDER_DIR="/root/payloads/user/exfiltration/Responder_Payload/responder"
 LOOTDIR="/root/loot/responder"
 SESSION_DIR="$LOOTDIR/session_$(date +%Y%m%d_%H%M%S)"
 INTERFACE="wlan0cli"
