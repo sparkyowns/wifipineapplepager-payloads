@@ -2,7 +2,7 @@
 # title: Favorites Manager
 # Description: Add, remove, or update payloads in the favorites folder
 # Author: RootJunky
-# Version: 3.1
+# Version: 3.2
 
 BASE_DIR="/root/payloads/user"
 DEST_DIR="/root/payloads/user/1-favorites"
@@ -191,4 +191,3 @@ CONFIRMATION_DIALOG "If payloads in the main directory have been updated with gi
 
 
 done
-
