@@ -230,6 +230,71 @@ list_payloads() {
     fi
 }
 
+delete_payload() {
+    local payload_path="$1"
+
+    # Security: prevent path traversal
+    case "$payload_path" in
+        *..*)
+            echo "Content-Type: application/json"
+            echo ""
+            echo '{"error":"Security: Path traversal not allowed"}'
+            exit 1
+            ;;
+    esac
+
+    # Must be in /root/payloads/user/
+    case "$payload_path" in
+        /root/payloads/user/*) ;;
+        *)
+            echo "Content-Type: application/json"
+            echo ""
+            echo '{"error":"Invalid path: must be in /root/payloads/user/"}'
+            exit 1
+            ;;
+    esac
+
+    # Must end with payload.sh
+    case "$payload_path" in
+        */payload.sh) ;;
+        *)
+            echo "Content-Type: application/json"
+            echo ""
+            echo '{"error":"Invalid payload file"}'
+            exit 1
+            ;;
+    esac
+
+    # Get the payload directory (parent of payload.sh)
+    local payload_dir=$(dirname "$payload_path")
+
+    # Don't allow deleting nautilus itself
+    if [ "$payload_dir" = "/root/payloads/user/remote_access/nautilus" ]; then
+        echo "Content-Type: application/json"
+        echo ""
+        echo '{"error":"Cannot delete Nautilus"}'
+        exit 1
+    fi
+
+    # Check if directory exists
+    if [ ! -d "$payload_dir" ]; then
+        echo "Content-Type: application/json"
+        echo ""
+        echo '{"error":"Payload not found"}'
+        exit 1
+    fi
+
+    # Delete the payload directory
+    rm -rf "$payload_dir"
+
+    # Rebuild cache
+    /root/payloads/user/remote_access/nautilus/build_cache.sh >/dev/null 2>&1
+
+    echo "Content-Type: application/json"
+    echo ""
+    echo '{"status":"deleted","path":"'"$payload_dir"'"}'
+}
+
 run_payload() {
     rpath="$1"
     token="$2"
@@ -1783,6 +1848,7 @@ case "$action" in
     install_pr) require_auth; install_pr "$github_url" "$token" "$force" "$pr_path" ;;
     check_local) require_auth; check_local_exists "$github_path" ;;
     stop) require_auth; stop_payload ;;
+    delete_payload) require_auth; delete_payload "$rpath" ;;
     respond) require_auth; respond "$response" ;;
     refresh) require_auth; /root/payloads/user/remote_access/nautilus/build_cache.sh; echo "Content-Type: application/json"; echo ""; echo '{"status":"refreshed"}' ;;
     wifi_status) require_auth; wifi_status ;;

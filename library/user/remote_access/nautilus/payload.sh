@@ -3,7 +3,7 @@
 # Title: Nautilus
 # Description: Web-based payload launcher with live console output and GitHub integration
 # Author: JustSomeTrout (Trout / troot.)
-# Version: 1.4.3
+# Version: 1.4.4
 # Firmware: Developed for Firmware version 1.0.4
 #
 # Runs uhttpd with CGI to browse and execute payloads from your browser.
@@ -93,7 +93,7 @@ LOG "cyan" '|║║║╠═╣║-║-║-║║--║-║╚═╗|'
 LOG "cyan" '|╝╚╝╩-╩╚═╝-╩-╩╩═╝╚═╝╚═╝|'
 LOG "cyan" '+======================+'
 LOG ""
-LOG "v1.4.3"
+LOG "v1.4.4"
 LOG ""
 LOG "yellow" '|   ~ Web Payload Launcher ~    |'
 LOG ""

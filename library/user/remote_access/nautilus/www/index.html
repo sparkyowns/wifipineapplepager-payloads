@@ -1692,11 +1692,68 @@ function selectByPath(path){
       const desc=selected.desc?escHtml(selected.desc):'';
       const authorHtml=author?'<span><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'+author+'</span>':'';
       const descHtml=desc?'<div class="description">'+desc+'</div>':'';
-      $('detail').innerHTML='<h2>'+escHtml(selected.name)+'</h2><div class="meta">'+authorHtml+'<span><svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>'+cat+'</span></div>'+descHtml+'<div class="actions"><button class="btn" id="runBtn" onclick="run()"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Run Payload</button></div>';
+      const isNautilus=selected.path.includes('/remote_access/nautilus/');
+      const deleteBtn=isNautilus?'':'<button class="btn secondary" id="deleteBtn" onclick="deletePayload()" style="margin-left:10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>Delete</button>';
+      $('detail').innerHTML='<h2>'+escHtml(selected.name)+'</h2><div class="meta">'+authorHtml+'<span><svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>'+cat+'</span></div>'+descHtml+'<div class="actions"><button class="btn" id="runBtn" onclick="run()"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Run Payload</button>'+deleteBtn+'</div>';
       updateRunBtn();
       break;
     }
   }
+}
+
+async function deletePayload(){
+  if(!selected||!selected.path)return;
+  if(selected.path.includes('/remote_access/nautilus/'))return;
+
+  $('modalTitle').textContent='Delete Payload?';
+  $('modalMessage').innerHTML='Are you sure you want to <strong>permanently delete</strong> this payload?<br><br><code>'+escHtml(selected.name)+'</code><br><br>This cannot be undone.';
+  $('modalInput').style.display='none';
+  $('modalConfirm').textContent='Yes, Delete';
+  $('modalCancel').textContent='Cancel';
+  $('modalCancel').style.display='';
+  $('modalTitle').style.color='#ff6b6b';
+  $('modalOverlay').classList.add('show');
+
+  $('modalConfirm').onclick=async()=>{
+    $('modalOverlay').classList.remove('show');
+    $('modalConfirm').onclick=()=>respondPrompt(true);
+    $('modalCancel').onclick=()=>respondPrompt(false);
+
+    try{
+      const resp=await fetch('/cgi-bin/api.sh?action=delete_payload&path='+encodeURIComponent(selected.path));
+      const data=await resp.json();
+      if(data.error){
+        const line=document.createElement('div');
+        line.className='line red';
+        line.textContent='[Delete] Error: '+data.error;
+        $('console').appendChild(line);
+      }else{
+        const line=document.createElement('div');
+        line.className='line green';
+        line.textContent='[Delete] Payload deleted successfully';
+        $('console').appendChild(line);
+        lineCount++;
+        $('lineCount').textContent=lineCount+' lines';
+        // Refresh payload list
+        const listResp=await fetch('/cgi-bin/api.sh?action=list');
+        const listData=await listResp.json();
+        payloads=listData;
+        filtered=payloads;
+        render();
+        $('detail').innerHTML='<div class="empty">Select a payload</div>';
+        selected=null;
+      }
+    }catch(e){
+      const line=document.createElement('div');
+      line.className='line red';
+      line.textContent='[Delete] Failed: '+e.message;
+      $('console').appendChild(line);
+    }
+  };
+  $('modalCancel').onclick=()=>{
+    $('modalOverlay').classList.remove('show');
+    $('modalCancel').onclick=()=>respondPrompt(false);
+  };
 }
 
 async function run(){
