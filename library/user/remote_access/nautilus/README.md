@@ -11,6 +11,9 @@
 <img src="https://img.shields.io/badge/Version-1.4.4-blue?style=flat-square" />
 <img src="https://img.shields.io/badge/Author-JustSomeTrout-purple?style=flat-square" />
 </p>
+<p align="center">
+<a href="https://trello.com/b/AjPFVdmc/nautilus"><img src="https://img.shields.io/badge/Trello-Roadmap-0052CC?style=flat-square&logo=trello&logoColor=white" /></a>
+</p>
 
 ```
     Title: Nautilus
@@ -31,27 +34,11 @@
 <img width="600" height="4" alt="" src="https://github.com/user-attachments/assets/8560a6c9-b1f1-4eed-ac94-bd9e14d36ac5" />
 </p>
 
-## 🆕 New in v1.4
-
-### 🖥️ Full Shell Terminal Access
-Nautilus now includes a complete interactive shell terminal powered by ttyd:
-
-- **Full PTY Support**: Real terminal emulation with proper escape sequences, colors, and cursor control
-- **Interactive Programs**: Run `vi`, `nano`, `top`, `htop`, and any interactive CLI tool
-- **Tab Completion**: Full bash/sh tab completion support
-- **Resize Support**: Terminal automatically resizes to fit your browser window
-- **Persistent Sessions**: Shell stays active while you switch between tabs
-- **One-Click Access**: Terminal tab always available in the navigation bar
-
-Access the shell from the **Terminal** tab - no SSH client needed!
-
 ---
 
 ## Overview
 
 **Nautilus** transforms your WiFi Pineapple Pager into a web-accessible payload command center. Launch, monitor, and interact with payloads from your phone, laptop, tablet, or any device with a browser.
-
-
 
 **Nautilus answers the question:**
 
@@ -72,7 +59,7 @@ No more fumbling with D-pad navigation or manual file transfers. Just point, cli
 - **One-Click Execution**: Run any payload with a single tap
 - **Live Console**: Watch output stream in real-time with color support
 - **Stop Control**: Abort running payloads at any time
-- **Shell Terminal**: Full interactive shell access with PTY support (new in v1.4)
+- **Shell Terminal**: Full interactive shell access with PTY support
 
 ### 🌐 GitHub Integration
 
